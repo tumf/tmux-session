@@ -1,12 +1,12 @@
-# Development Guide for tmux-session
+# Development Guide for tmux-try
 
-This repository contains a Bash-based frontend script for tmuxinator with auto-completion support.
+This repository contains a Bash-based tmux session manager with seamless try integration.
 
 ## Project Overview
 
 - **Language**: Bash shell script
-- **Purpose**: Simple wrapper for tmuxinator to start tmux sessions with local configuration
-- **Main Script**: `tmux-session` - executable Bash script
+- **Purpose**: Tmux session manager with try integration for experiment directory management
+- **Main Script**: `tmux-try` - executable Bash script
 - **Configuration**: `.tmuxinator.yml` - ERB template for tmux session layout
 
 ## Build/Test Commands
@@ -15,29 +15,33 @@ This repository contains a Bash-based frontend script for tmuxinator with auto-c
 
 ```bash
 # Run from repository root
-./tmux-session [<project-dir>|<tmuxinator-name>]
+./tmux-try [<path>|<name>|<git-url>]
 
-# Run without arguments (uses current directory)
-./tmux-session
+# Interactive mode (try selector)
+./tmux-try
 
-# Run with specific tmuxinator project
-./tmux-session myproject
+# With explicit directory path
+./tmux-try ./myproject
+./tmux-try ~/projects/myapp
 
-# Run with directory path
-./tmux-session ~/projects/myapp
+# With name (tmuxinator or try)
+./tmux-try myproject
+
+# With Git URL
+./tmux-try https://github.com/user/repo
 ```
 
 ### Testing
 
 ```bash
 # Manual testing - dry run to see what would be executed
-bash -x ./tmux-session test-project
+bash -x ./tmux-try test-project
 
 # Validate syntax
-bash -n tmux-session
+bash -n tmux-try
 
 # Check shell script with shellcheck (if available)
-shellcheck tmux-session
+shellcheck tmux-try
 
 # Test tmuxinator config validation
 tmuxinator debug .
@@ -47,10 +51,10 @@ tmuxinator debug .
 
 ```bash
 # Shell script linting (requires shellcheck)
-shellcheck tmux-session
+shellcheck tmux-try
 
 # Check formatting
-shfmt -d tmux-session
+shfmt -d tmux-try
 ```
 
 ## Code Style Guidelines
@@ -137,8 +141,8 @@ EOF
 ### File Organization
 
 ```
-tmux-session/
-├── tmux-session          # Main executable script
+tmux-try/
+├── tmux-try              # Main executable script
 ├── .tmuxinator.yml       # Default tmux session template
 ├── README.md             # User-facing documentation
 └── AGENTS.md             # This file (developer guide)
@@ -146,16 +150,16 @@ tmux-session/
 
 ## Dependencies
 
-- **Required**: `tmuxinator`, `tmux`, `bash`
-- **Optional**: `shellcheck` (for linting), `shfmt` (for formatting)
+- **Required**: `tmux`, `bash`, `try` (for name-based sessions)
+- **Optional**: `tmuxinator`, `shellcheck` (for linting), `shfmt` (for formatting)
 
 ## Common Tasks
 
 ### Adding a New Feature
 
-1. Edit `tmux-session` script
+1. Edit `tmux-try` script
 2. Test manually with various inputs
-3. Validate syntax: `bash -n tmux-session`
+3. Validate syntax: `bash -n tmux-try`
 4. Run shellcheck if available
 5. Update README.md if user-facing
 6. Commit with descriptive message
@@ -164,7 +168,7 @@ tmux-session/
 
 ```bash
 # Run with debug output
-bash -x ./tmux-session <args>
+bash -x ./tmux-try <args>
 
 # Check specific line execution
 set -x  # Enable debug mode in script
@@ -173,10 +177,11 @@ set +x  # Disable debug mode
 
 ### Testing Edge Cases
 
-- Empty arguments: `./tmux-session`
-- Non-existent directory: `./tmux-session /tmp/nonexistent`
-- Directory with spaces: `./tmux-session "my project"`
-- Special characters in names: `./tmux-session test-proj_123`
+- Empty arguments: `./tmux-try`
+- Non-existent directory: `./tmux-try ./nonexistent`
+- Directory with spaces: `./tmux-try "./my project"`
+- Special characters in names: `./tmux-try test-proj_123`
+- Git URLs: `./tmux-try https://github.com/user/repo`
 
 ## Notes for AI Agents
 

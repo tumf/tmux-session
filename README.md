@@ -1,4 +1,4 @@
-# tmux-session
+# tmux-try
 
 A simple tmux session manager with seamless [try](https://github.com/tobi/try) integration for experiment directory management.
 
@@ -16,12 +16,12 @@ A simple tmux session manager with seamless [try](https://github.com/tobi/try) i
 
 1. Copy the script to a directory in your PATH:
    ```bash
-   cp tmux-session /usr/local/bin/tmux-session
+   cp tmux-try /usr/local/bin/tmux-try
    ```
 
 2. Make it executable:
    ```bash
-   chmod +x /usr/local/bin/tmux-session
+   chmod +x /usr/local/bin/tmux-try
    ```
 
 3. (Recommended) Install `try` for experiment management:
@@ -38,12 +38,12 @@ Use `./`, `~/`, or `/` prefix for explicit directory paths:
 
 ```bash
 # Start in specific directory
-tmux-session ./myproject
-tmux-session ~/projects/myapp
-tmux-session /absolute/path/to/project
+tmux-try ./myproject
+tmux-try ~/projects/myapp
+tmux-try /absolute/path/to/project
 
 # Create and start in new directory
-tmux-session ./new-project
+tmux-try ./new-project
 ```
 
 ### Name-based Sessions (try or tmuxinator)
@@ -52,29 +52,29 @@ Without path prefix, the argument is treated as a name:
 
 ```bash
 # Start existing tmuxinator project by name
-tmux-session myproject
+tmux-try myproject
 
 # Filter/create try experiment by name
-tmux-session redis
+tmux-try redis
 # → Opens fuzzy finder filtered by "redis", or creates new experiment
 
 # Clone a GitHub repo
-tmux-session https://github.com/tobi/try
+tmux-try https://github.com/tobi/try
 # → Clones to ~/src/tries/2026-01-31-tobi-try/ and starts a session
 
 # Clone via SSH
-tmux-session git@github.com:user/repo
+tmux-try git@github.com:user/repo
 ```
 
 ### Interactive Mode (No Arguments)
 
 ```bash
 # Open try interactive selector
-tmux-session
+tmux-try
 # → Opens fuzzy finder to select existing experiment or create new one
 
 # If try is not installed, uses current directory
-tmux-session
+tmux-try
 # → Starts session in current directory
 ```
 
@@ -155,7 +155,7 @@ windows:
         - opencode
 ```
 
-You can customize the default template by editing the heredoc section in the `tmux-session` script.
+You can customize the default template by editing the heredoc section in the `tmux-try` script.
 
 ## Development
 
