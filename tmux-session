@@ -22,13 +22,13 @@ if echo "$TMUXINATOR_PROJECTS" | grep -q "\b$ARG\b"; then
 else
   # Argument is treated as a project directory
   PROJECT_DIR="$ARG"
-  
+
   # Create project directory if it doesn't exist
   mkdir -p "$PROJECT_DIR"
-  
+
   # Change to project directory
   cd "$PROJECT_DIR"
-  
+
   # Create .tmuxinator.yml if it doesn't exist
   if [ ! -f ".tmuxinator.yml" ]; then
     echo "Creating .tmuxinator.yml..."
@@ -42,17 +42,11 @@ windows:
   - main:
       panes:
         - zsh
-        - yazi
-  - editor:
-      panes:
-        - nvim
-  - opencode:
-      panes:
         - opencode
 EOF
     echo ".tmuxinator.yml created"
   fi
-  
+
   # Run tmuxinator local
   echo "Starting tmuxinator with local config..."
   tmuxinator local
