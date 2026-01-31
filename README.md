@@ -1,70 +1,97 @@
-# start
+# tmux-session
 
-A simple frontend script for tmuxinator with auto-completion support.
+A simple frontend script for tmuxinator that automatically creates and manages local tmux session configurations.
+
+## Features
+
+- Automatically creates `.tmuxinator.yml` in project directories
+- Supports both tmuxinator project names and directory paths
+- Uses current directory if no argument is provided
+- Creates project directory if it doesn't exist
+- Simple, single-file Bash script with no external dependencies (except tmuxinator)
 
 ## Installation
 
-1. Copy the `start` script to a directory in your PATH:
+1. Copy the `tmux-session` script to a directory in your PATH:
    ```bash
-   cp start /usr/local/bin/start
+   cp tmux-session /usr/local/bin/tmux-session
    # or
-   sudo cp start /usr/local/bin/start
+   sudo cp tmux-session /usr/local/bin/tmux-session
    ```
 
-2. Enable auto-completion:
-
-   **For Bash:**
+2. Make it executable:
    ```bash
-   # Add to your ~/.bashrc or ~/.bash_profile
-   source /path/to/start-completion.bash
-   
-   # Or copy to system completion directory
-   sudo cp start-completion.bash /etc/bash_completion.d/start
-   ```
-
-   **For Zsh:**
-   ```bash
-   # Add to your ~/.zshrc
-   source /path/to/start-completion.zsh
-   ```
-
-3. Reload your shell configuration:
-   ```bash
-   # For Bash
-   source ~/.bashrc
-   
-   # For Zsh
-   source ~/.zshrc
+   chmod +x /usr/local/bin/tmux-session
    ```
 
 ## Usage
 
 ```bash
-start <project_name> [additional_args...]
+tmux-session [<project-dir>|<tmuxinator-name>]
 ```
 
 ### Examples
 
 ```bash
-# Start a tmuxinator project
-start myproject
+# Start in current directory (creates .tmuxinator.yml if needed)
+tmux-session
 
-# Start with debug mode
-start myproject --debug
+# Start in specific directory
+tmux-session ~/projects/myapp
 
-# Tab completion works just like tmuxinator
-start <TAB>  # Shows available projects
+# Start existing tmuxinator project by name
+tmux-session myproject
+
+# Create and start in new project directory
+tmux-session ./new-project
 ```
 
 ## Requirements
 
 - tmuxinator must be installed and configured
-- bash or zsh shell
+- tmux
+- bash shell
 
 ## How it works
 
-The `start` script is a simple wrapper that:
-1. Passes all arguments to `tmuxinator start`
-2. Provides helpful usage information when called without arguments
+The `tmux-session` script intelligently handles two modes:
 
-The completion scripts query `tmuxinator list` to provide project name suggestions, exactly like the native tmuxinator completion.
+1. **Tmuxinator project mode**: If the argument matches an existing tmuxinator project name, it runs `tmuxinator start <project-name>`
+
+2. **Local directory mode**: Otherwise, it:
+   - Creates the directory if it doesn't exist
+   - Changes to that directory
+   - Creates a default `.tmuxinator.yml` if not present
+   - Runs `tmuxinator local` to start the session
+
+### Default Configuration
+
+When creating a new `.tmuxinator.yml`, the script uses this template:
+
+```yaml
+name: <directory-name>
+root: <directory-path>
+
+windows:
+  - main:
+      panes:
+        - zsh
+        - opencode
+```
+
+You can customize the default template by editing the heredoc section in the `tmux-session` script.
+
+## Customization
+
+Edit the `.tmuxinator.yml` template in the script to change default window/pane layout:
+
+```bash
+# Edit the heredoc starting at line 35
+cat >.tmuxinator.yml <<'EOF'
+# Your custom template here
+EOF
+```
+
+## Development
+
+See [AGENTS.md](AGENTS.md) for development guidelines, code style, and testing instructions.
