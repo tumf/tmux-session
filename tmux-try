@@ -157,8 +157,6 @@ root: <%= Dir.pwd %>
 
 windows:
   - main:
-      panes:
-        - zsh
 EOF
         echo ".tmuxinator.yml created with default template"
       fi
