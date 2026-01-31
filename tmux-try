@@ -136,30 +136,19 @@ start_session_in_dir() {
     # Create .tmuxinator.yml if it doesn't exist
     if [[ ! -f ".tmuxinator.yml" ]]; then
       echo "Creating .tmuxinator.yml..."
-
-      # Get script directory (where this script is located)
-      local script_dir
-      script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-      # Copy template from script directory
-      if [[ -f "$script_dir/.tmuxinator.yml" ]]; then
-        cp "$script_dir/.tmuxinator.yml" .tmuxinator.yml
-        echo ".tmuxinator.yml created from template"
-      else
-        echo "Warning: Template not found at $script_dir/.tmuxinator.yml" >&2
-        echo "Creating default .tmuxinator.yml..." >&2
-        cat >.tmuxinator.yml <<'EOF'
+      cat >.tmuxinator.yml <<'EOF'
 # .tmuxinator.yml
-# https://github.com/tmuxinator/tmuxinator
 
 name: <%= File.basename(Dir.pwd).gsub('.', '_') %>
 root: <%= Dir.pwd %>
 
 windows:
   - main:
+      panes:
+        - zsh
+        - zsh
 EOF
-        echo ".tmuxinator.yml created with default template"
-      fi
+      echo ".tmuxinator.yml created"
     fi
 
     # Run tmuxinator local
