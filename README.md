@@ -48,9 +48,35 @@ tmux-session ./new-project
 
 ## Requirements
 
-- tmuxinator must be installed and configured
-- tmux
-- bash shell
+- **tmux**: Terminal multiplexer
+- **tmuxinator**: Tmux session manager
+- **bash**: Shell (version 4.0 or later)
+
+### Installing tmuxinator
+
+**macOS (using Homebrew):**
+```bash
+brew install tmuxinator
+```
+
+**Linux (using gem):**
+```bash
+gem install tmuxinator
+```
+
+**Using package managers:**
+```bash
+# Debian/Ubuntu
+sudo apt install tmuxinator
+
+# Arch Linux
+sudo pacman -S tmuxinator
+
+# Fedora
+sudo dnf install tmuxinator
+```
+
+For more installation options, see the [official tmuxinator documentation](https://github.com/tmuxinator/tmuxinator).
 
 ## How it works
 
